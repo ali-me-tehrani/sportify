@@ -1,12 +1,6 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
+    <v-navigation-drawer v-model="drawer" :mini-variant="miniVariant" fixed app>
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -24,14 +18,10 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app>
+    <v-app-bar fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
     </v-app-bar>
     <v-main>
       <v-container class="fill-height">
@@ -49,9 +39,7 @@ export default {
   name: 'DefaultLayout',
   data() {
     return {
-      clipped: false,
       drawer: false,
-      fixed: false,
       items: [
         {
           icon: 'mdi-apps',
@@ -59,15 +47,17 @@ export default {
           to: '/',
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
+          icon: 'mdi-login',
+          title: 'Login',
+          to: '/login',
+        },
+        {
+          icon: 'mdi-account-plus',
+          title: 'Register',
+          to: '/register',
         },
       ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js',
+      title: 'Sportify',
     }
   },
 }

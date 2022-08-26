@@ -6,7 +6,7 @@
       autocomplete="off"
       @submit.prevent="submit"
     >
-      <v-card-title class="text-center justify-center"> Login </v-card-title>
+      <v-card-title class="text-center justify-center"> Register </v-card-title>
       <v-card-text>
         <v-text-field
           v-model="username"
