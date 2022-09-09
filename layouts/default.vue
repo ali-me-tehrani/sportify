@@ -1,6 +1,6 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer v-model="drawer" :mini-variant="miniVariant" fixed app>
+    <v-navigation-drawer v-model="drawer" fixed app>
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -22,13 +22,12 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title v-text="title" />
+      {{ drawer }}
     </v-app-bar>
     <v-main>
-      <v-container class="fill-height">
-        <Nuxt />
-      </v-container>
+      <Nuxt />
     </v-main>
-    <v-footer app>
+    <v-footer>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -55,6 +54,11 @@ export default {
           icon: 'mdi-account-plus',
           title: 'Register',
           to: '/register',
+        },
+        {
+          icon: 'mdi-calendar-clock',
+          title: 'Upcoming',
+          to: '/upcoming',
         },
       ],
       title: 'Sportify',

@@ -15,12 +15,15 @@ export default {
   },
 
   middleware: ["auth"],
+  serverMiddleware: {
+    '/api': '~/server/api'
+  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: './plugins/vuex-persist', ssr: false, mode: 'client' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
