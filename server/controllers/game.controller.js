@@ -5,7 +5,7 @@ const pick = require('../../utils/pick');
 
 const ApiFootball = axios.create({
     baseURL: 'https://api.football-data.org/v4/competitions/WC/',
-    headers: { 'X-Auth-Token': 'aef6b8804667451fa8d18d29eacfb93a' }
+    headers: { 'X-Auth-Token': process.env.FOOTBALL_API_TOKEN }
 })
 
 const initMatches = catchAsync(async (req, res) => {
@@ -25,6 +25,7 @@ const initMatches = catchAsync(async (req, res) => {
 const getMatches = catchAsync(async (req, res) => {
     const options = pick(req.query, ['limit', 'sortBy', 'page'])
     const filter = pick(req.query, ['stage', 'status', 'group'])
+
     const matches = await queryMatches(filter, options)
     res.send(matches);
 });
