@@ -39,6 +39,9 @@
         >
           creat account
         </v-btn>
+        <v-btn block text color="info" class="mx-0 my-3" @click="test">
+          test
+        </v-btn>
       </v-card-actions>
     </v-form>
   </v-card>
@@ -60,8 +63,14 @@ export default {
     ],
   }),
   methods: {
-    submit() {
-      console.log('login')
+    async submit() {
+      try {
+        const { email, password } = this
+        const res = await this.$auth.loginWith('local', {
+          data: { email, password },
+        })
+        console.log(res)
+      } catch (err) {}
     },
     validate() {
       this.$refs.form.validate()
@@ -71,6 +80,9 @@ export default {
     },
     resetValidation() {
       this.$refs.form.resetValidation()
+    },
+    test() {
+      console.log(this.$auth)
     },
   },
 }
