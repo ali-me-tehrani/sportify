@@ -15,12 +15,15 @@ export default {
   },
 
   middleware: ["auth"],
+  serverMiddleware: {
+    '/api': '~/server/api'
+  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: './plugins/vuex-persist', ssr: false, mode: 'client' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -41,6 +44,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    // https://auth.nuxtjs.org/
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -54,6 +59,42 @@ export default {
     manifest: {
       lang: 'en',
     },
+  },
+  // nuxt-auth configuration: https://auth.nuxtjs.org/guide/setup
+  auth: {
+    strategies: {
+      local: {
+        scheme: 'refresh',
+        token: {
+          property: 'tokens.access.token',
+          maxAge: 1800,
+          global: true,
+          type: 'Bearer'
+        },
+        refreshToken: {
+          property: 'tokens.refresh.token',
+          data: 'refresh_token',
+          maxAge: 60 * 60 * 24 * 30,
+          type: 'Bearer'
+        },
+        user: {
+          property: false,
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/api/v1/auth/login', method: 'post' },
+          refresh: { url: '/api/v1/auth/refresh', method: 'post' },
+          user: { url: '/api/v1/user/', method: 'get' },
+          logout: { url: '/api/v1/auth/logout', method: 'post' }
+        },
+        redirect: {
+          login: '/login',
+          logout: '/',
+          callback: '/login',
+          home: '/'
+        }
+      }
+    }
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

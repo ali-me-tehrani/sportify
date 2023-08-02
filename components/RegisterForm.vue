@@ -10,13 +10,11 @@
       <v-card-text>
         <v-text-field
           v-model="username"
-          autocomplete="off"
           label="Username"
           required
         ></v-text-field>
         <v-text-field
           v-model="email"
-          autocomplete="off"
           :rules="emailRules"
           label="E-mail"
           required
@@ -31,7 +29,13 @@
         ></v-text-field>
       </v-card-text>
       <v-card-actions class="flex-wrap">
-        <v-btn block type="submit" color="success" :disabled="!valid">
+        <v-btn
+          block
+          type="submit"
+          color="success"
+          :disabled="!valid || loading"
+          :loading="loading"
+        >
           submit
         </v-btn>
       </v-card-actions>
@@ -54,10 +58,28 @@ export default {
       (v) => !!v || 'Password is required',
       (v) => (v && v.length >= 8) || 'Password must be atleast 8 characters',
     ],
+    loading: false,
   }),
   methods: {
-    submit() {
-      console.log('create account')
+    async submit() {
+      if (this.loading) return
+      try {
+        this.loading = true
+        const { email, password, username } = this
+        const res = await this.$axios.$post(
+          'http://localhost:3000/api/v1/auth/register',
+          {
+            email,
+            password,
+            username,
+          }
+        )
+        console.log(res)
+      } catch (err) {
+        console.log(err)
+      }
+
+      this.loading = false
     },
     validate() {
       this.$refs.form.validate()
