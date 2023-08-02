@@ -3,7 +3,7 @@
     <v-navigation-drawer v-model="drawer" fixed app>
       <v-list>
         <v-list-item
-          v-for="(item, i) in items"
+          v-for="(item, i) in menuItems"
           :key="i"
           :to="item.to"
           router
@@ -14,6 +14,14 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="isLoggedIn" @click="logout()">
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -46,6 +54,21 @@ export default {
           to: '/',
         },
         {
+          icon: 'mdi-calendar-clock',
+          title: 'Upcoming',
+          to: '/upcoming',
+        },
+      ],
+      title: 'Sportify',
+    }
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$auth.loggedIn
+    },
+    menuItems() {
+      const loginRegisterItems = [
+        {
           icon: 'mdi-login',
           title: 'Login',
           to: '/login',
@@ -55,14 +78,16 @@ export default {
           title: 'Register',
           to: '/register',
         },
-        {
-          icon: 'mdi-calendar-clock',
-          title: 'Upcoming',
-          to: '/upcoming',
-        },
-      ],
-      title: 'Sportify',
-    }
+      ]
+
+      if (this.isLoggedIn) return this.items
+      return this.items.concat(loginRegisterItems)
+    },
+  },
+  methods: {
+    logout() {
+      this.$auth.logout()
+    },
   },
 }
 </script>
